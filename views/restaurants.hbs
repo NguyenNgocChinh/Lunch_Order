@@ -1,0 +1,102 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Restaurants</title>
+    <link
+      href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css'
+      rel='stylesheet'
+      integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN'
+      crossorigin='anonymous'
+    />
+    <link rel='stylesheet' href='/public/restaurants.css' />
+  </head>
+  <body>
+
+    <nav id='navbar-example2' class='navbar bg-body-tertiary px-3 mb-3'>
+      <a class='navbar-brand' href='/'>Order page</a>
+      <ul class='nav nav-pills'>
+        <li class='nav-item'>
+          <a class='nav-link' href='/config'>Config</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class='container'>
+      <h2>Click vào 1 nhà hàng bất kì, ID sẽ được copy ở clipboard. Sau đó hãy
+        setup nó ở trang cấu hình</h2>
+      <form id='form' method='get'>
+        <div class='mb-3 d-flex gap-2'>
+          <input
+            type='text'
+            class='form-control'
+            id='keyword'
+            name='keyword'
+            placeholder='Keyword'
+            value='{{keyword}}'
+          />
+          <button id='btnSearch' class='btn btn-primary'>Search</button>
+        </div>
+      </form>
+
+      <div class='row'>
+        {{#each data.searchMerchants}}
+          <div
+            id='{{id}}'
+            class='menuItemWrapper col-lg-6 col-md-6 col-sm-12'
+            onclick='copyText("{{id}}")'
+          >
+            <div class='menuItem'>
+              <div class='imageBox'>
+                <img src='{{merchantBrief.photoHref}}' class='realImage' />
+              </div>
+              <div
+                class='menuItemInfo'
+                data-bs-toggle='tooltip'
+                data-bs-placement='top'
+                data-bs-custom-class='custom-tooltip'
+                data-bs-title='This top tooltip is themed via CSS variables.'
+              >
+                <h2>{{id}}</h2>
+                <!-- <h3>{{merchantBrief.displayInfo.primaryText}}</h3> -->
+                <h3>{{address.name}}</h3>
+
+                <div class='distance'>
+                  <img src='/public/images/icons/icon-clock.svg' alt='' />
+                  <div class='info'>
+                    <div>{{estimatedDeliveryTime}} phút</div>
+                  </div>
+                </div>
+                <div>Distance: {{merchantBrief.distanceInKm}} km</div>
+
+                <p class='menuDescription'>Rating:
+                  {{merchantBrief.rating}}
+                  ⭐️ ({{merchantBrief.vote_count}}
+                  lượt)
+                </p>
+
+                {{#if merchantBrief.promo.hasPromo}}
+                  <p
+                    class='menuPrice mt-3'
+                  >{{merchantBrief.promo.description}}</p>
+                {{/if}}
+
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <script
+      src='https://code.jquery.com/jquery-3.7.1.min.js'
+      integrity='sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo='
+      crossorigin='anonymous'
+    ></script>
+    <script
+      src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'
+      integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL'
+      crossorigin='anonymous'
+    ></script>
+    <script src='/public/js/restaurants.js'></script>
+  </body>
+</html>

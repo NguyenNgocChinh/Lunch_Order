@@ -1,0 +1,104 @@
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>{{data.merchant.name}}</title>
+    <link
+      href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css'
+      rel='stylesheet'
+      integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN'
+      crossorigin='anonymous'
+    />
+    <link rel='stylesheet' href='/public/index.css' />
+  </head>
+  <body>
+    <div class='nav'>
+      <div class='merchantInfo'>
+        <p class='name'>{{data.merchant.name}}</p>
+        <div class='distance'>
+          <img src='/public/images/icons/icon-clock.svg' alt='' />
+          <div class='info'>
+            <div>{{data.merchant.ETA}} phút</div>
+            <div>•</div>
+            <div>{{data.merchant.distanceInKm}} km</div>
+          </div>
+        </div>
+      </div>
+
+      <a class='sheetUrl' href='{{config.sheet}}' target='_blank'>
+        Note order tại đây:
+        {{config.sheet}}</a>
+      <div class='categories'>
+        <div class='ant-tabs-nav-scroll'>
+          <div class='ant-tabs-nav ant-tabs-nav-animated'>
+            {{#each data.merchant.menu.categories}}
+              {{#if available}}
+                <a
+                  href='#cat_{{@index}}'
+                  class='ant-tabs-tab-active ant-tabs-tab'
+                >{{name}}</a>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='content'>
+      <div class='menu'>
+        <div class='row'>
+          {{#each data.merchant.menu.categories}}
+            {{#if available}}
+              <p id='cat_{{@index}}' class='categoryName'>{{name}}</p>
+              {{#each items}}
+                {{#if available}}
+                  <div class='menuItemWrapper col-lg-4 col-md-6 col-sm-12'>
+                    <div class='menuItem'>
+                      <div class='imageBox'>
+                        <img src='{{imgHref}}' class='realImage' />
+                      </div>
+                      <div class='menuItemInfo'>
+                        <h3>{{name}}</h3>
+                        <p class='menuDescription'>{{description}}</p>
+                        <div class='menuPriceWrapper'>
+                          {{#if campaignName}}
+                            <div class='menuCampaignNameBox'>
+                              <p class='menuCampaignName'>{{campaignName}}</p>
+                            </div>
+                            <p
+                              class='priceDiscounted'
+                            >{{priceV2.amountDisplay}}</p>
+                          {{/if}}
+                        </div>
+                        <p
+                          class='menuPrice'
+                        >{{discountedPriceV2.amountDisplay}}</p>
+                      </div>
+                    </div>
+                    <!-- <div class='quickAdder'>
+                      <div class='quickAddButton' role='button' tabindex='0'>
+                        <img src='/public/images/icons/plus-white.svg' alt='' />
+                      </div>
+                    </div> -->
+                  </div>
+                {{/if}}
+              {{/each}}
+            {{/if}}
+
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+    <script
+      src='https://code.jquery.com/jquery-3.7.1.min.js'
+      integrity='sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo='
+      crossorigin='anonymous'
+    ></script>
+    <script
+      src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'
+      integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL'
+      crossorigin='anonymous'
+    ></script>
+    <script src='/public/js/index.js'></script>
+  </body>
+</html>
