@@ -13,7 +13,7 @@ $(document).ready(function () {
         alert('Save successfully');
       },
       fail: function (jqXHR, textStatus, errorThrown) {
-        alert('Error: ' + errorThrown);
+        console.error("Error", jqXHR);
       },
     });
   });
