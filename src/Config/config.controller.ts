@@ -7,7 +7,7 @@ export class ConfigController {
   @Get()
   @Render('config')
   config() {
-    const filePath = path.join('/tmp', '/config.json');
+    const filePath = path.join(process.cwd(), '/config.json');
     const configFile = fs.readFileSync(filePath, 'utf-8').toString();
     return { config: JSON.parse(configFile) };
   }
