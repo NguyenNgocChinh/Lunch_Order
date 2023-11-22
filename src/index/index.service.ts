@@ -4,15 +4,14 @@ import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 
 @Injectable()
-export class AppService {
-  private readonly logger = new Logger(AppService.name);
-  constructor(private readonly httpService: HttpService) {}
+export class IndexService {
+  private readonly logger = new Logger(IndexService.name);
+  constructor(private httpService: HttpService) {}
 
-  async getById({ idRestaurant, latitude, longitude }): Promise<any> {
-    const apiTest = `https://portal.grab.com/foodweb/v2/merchants/${idRestaurant}?latlng=${latitude},${longitude}`;
-
+  async getIndex({ idRestaurant, latitude, longitude }): Promise<any> {
+    const api = `https://portal.grab.com/foodweb/v2/merchants/${idRestaurant}?latlng=${latitude},${longitude}`;
     const { data } = await firstValueFrom(
-      this.httpService.get<any>(apiTest).pipe(
+      this.httpService.get<any>(api).pipe(
         catchError((error: AxiosError) => {
           this.logger.error(error.response.data);
           throw 'An error happened!';

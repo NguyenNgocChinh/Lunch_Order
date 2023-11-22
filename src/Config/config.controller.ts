@@ -1,23 +1,19 @@
 import { Body, Controller, Get, Post, Render } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
+import { ConfigService } from 'src/config/config.service';
 
 @Controller('config')
 export class ConfigController {
+  constructor(private readonly configService: ConfigService) {}
+
   @Get()
   @Render('config')
-  config() {
-    const filePath = path.join(process.cwd(), '/config.json');
-    const configFile = fs.readFileSync(filePath, 'utf-8').toString();
-    return { config: JSON.parse(configFile) };
+  async config() {
+    const config = await this.configService.findConfig();
+    return { config: config };
   }
 
   @Post()
   saveConfig(@Body() body) {
-    // const filePath = path.join(process.cwd(), '/config.json');
-    // const configFile = fs.writeFileSync(filePath, body);
-    const filePath = path.join(process.cwd(), 'config.json');
-    fs.writeFileSync(filePath, JSON.stringify(body));
-    return 1;
+    return this.configService.saveConfig(body);
   }
 }

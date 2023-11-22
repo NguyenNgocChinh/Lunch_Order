@@ -1,19 +1,20 @@
 import { Body, Controller, Get, Post, Query, Render } from '@nestjs/common';
-import * as fs from 'fs';
-import * as path from 'path';
+import { ConfigService } from 'src/config/config.service';
 import { RestaurantService } from './restaurants.service';
 
 @Controller('restaurants')
 export class RestaurantController {
-  constructor(private readonly restaurantService: RestaurantService) {}
+  constructor(
+    private readonly restaurantService: RestaurantService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Get()
   @Render('restaurants')
   async restaurants(@Query() query) {
-    const filePath = path.join(process.cwd(), '/config.json');
-    const configFile = fs.readFileSync(filePath, 'utf-8').toString();
+    const config = await this.configService.findConfig();
     const data = await this.restaurantService.search(
-      JSON.parse(configFile),
+      config,
       query?.keyword || '',
     );
     return { data, keyword: query.keyword || '' };
@@ -21,12 +22,8 @@ export class RestaurantController {
 
   @Post()
   async search(@Body() { keyword }) {
-    const filePath = path.join(process.cwd(), '/config.json');
-    const configFile = fs.readFileSync(filePath, 'utf-8').toString();
-    const data = await this.restaurantService.search(
-      JSON.parse(configFile),
-      keyword,
-    );
+    const config = await this.configService.findConfig();
+    const data = await this.restaurantService.search(config, keyword);
     return data;
   }
 }
