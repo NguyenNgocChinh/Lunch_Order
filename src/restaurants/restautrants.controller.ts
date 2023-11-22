@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Query, Render } from '@nestjs/common';
-import { ConfigService } from 'src/config/config.service';
+import { ConfigService } from '../config/config.service';
 import { RestaurantService } from './restaurants.service';
 
 @Controller('restaurants')

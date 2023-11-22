@@ -1,6 +1,6 @@
 import { Controller, Get, Render } from '@nestjs/common';
 import { IndexService } from './index.service';
-import { ConfigService } from 'src/config/config.service';
+import { ConfigService } from '../config/config.service';
 
 @Controller('/')
 export class IndexController {
